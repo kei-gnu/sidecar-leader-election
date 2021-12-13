@@ -1,10 +1,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: ClusterRole
 metadata:
-  name: leader-election-cluster
+  name: leader-election-role
   namespace: leader-election-test
   labels:
-    app: leader-eelction-app
+    app: leader-election-app
 rules:
   - apiGroups: [""]
     resources: ["endpoints"]
