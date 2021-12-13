@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: leader-election-svc-acc
+  namespace: leader-election-test
+  labels:
+    app: leader-election-app
+    
