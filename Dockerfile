@@ -17,7 +17,9 @@ RUN CGO_ENABLED=0 go build \
 
 FROM alpine:3.13
 
-RUN apk --no-cache add a-certificates
+# RUN apk --no-cache add a-certificates
+RUN apk --no-cache add ca-certificates
+
 
 USER nobady
 
