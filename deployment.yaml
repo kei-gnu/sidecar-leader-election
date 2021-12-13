@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: music-pod-test
+  namespace: "leader-election-test"
+  labels:
+    app: leader-election-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: leader-election-app
+  template:
+    metadata:
+      labels:
+        app: leader-election-app
+      annotations:
+    spec:
+      serviceAccountName: leader-election-svc-acc
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+          - containerPort: 80
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "-c"
+                  - >
+                    apt-get update;
+                    apt-get install -y curl;
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - curl -v --silent http://localhost:4040/ 2>&1 | grep $HOSTNAME
+            
+            initialDelaySeconds: 5
+            periodSeconds: 5
+        - name: leader-election-test
+          image: docker.io/mayankshah1607/leaderelection
+          args:
+          - --election=example
+          - --http=0.0.0.0:4040
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 4040
