@@ -21,8 +21,9 @@ FROM alpine:3.13
 RUN apk --no-cache add ca-certificates
 
 
-USER nobady
+USER nobody
 
-COPY --from=builder --chown=nobady:nobody /app/leaderelection .
+COPY --from=builder --chown=nobody:nobody /app/leaderelection .
+
 
 ENTRYPOINT ["./leaderelection"]
